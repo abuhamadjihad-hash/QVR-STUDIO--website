@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlElement">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">QVR STUDIO | موقع إبداعي</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* زر تبديل اللغة */
+        .lang-btn {
+            background: #FFD700;
+            color: #2C3E50;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .lang-btn:hover {
+            background: #87CEEB;
+            transform: scale(1.05);
+        }
+        
+        /* زر "شاهد أعمالنا" الرئيسي */
+        .watch-works-btn {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 25px auto;
+        }
+        
+        .watch-works-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(45deg, #FF8E53, #FF6B6B);
+        }
+        
+        /* أزرار التواصل الاجتماعي */
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            min-width: 150px;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .gmail-btn {
+            background: linear-gradient(45deg, #D44638, #EA4335);
+        }
+        
+        .whatsapp-btn {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+        }
+        
+        .tiktok-btn {
+            background: linear-gradient(45deg, #000000, #69C9D0);
+        }
+        
+        .instagram-btn {
+            background: linear-gradient(45deg, #E4405F, #833AB4);
+        }
+        
+        /* ستايل مشغل الفيديو */
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none; /* مخفي في البداية */
+        }
+        
+        .video-container.active {
+            display: block; /* يظهر عند الضغط على الزر */
+        }
+        
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #000;
+        }
+        
+        .video-controls {
+            background: #2C3E50;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .video-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .video-btn:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+        
+        /* تحسين تخطيط المشاريع */
+        .projects-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .project-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .project-media {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .project-img {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .project-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .project-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 123, 255, 0.9);
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .play-overlay:hover {
+            background: rgba(0, 86, 179, 0.95);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .project-info {
+            text-align: center;
+            padding: 15px 0;
+        }
+        
+        .project-info h3 {
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+        
+        .project-info p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .tag {
+            background: #f8f9fa;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #495057;
+            border: 1px solid #dee2e6;
+        }
+        
+        /* زر "أعمالنا" في الهيدر */
+        .nav-work-btn {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #2C3E50;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 0 5px;
+        }
+        
+        .nav-work-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #FFA500, #FF8C00);
+        }
+        
+        /* زر فيديو في قسم المشاريع */
+        .project-video-btn {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px auto;
+        }
+        
+        .project-video-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(68, 160, 141, 0.3);
+        }
+        
+        /* تحسين القسم الرئيسي */
+        .hero .subtitle {
+            font-size: 20px;
+            color: #666;
+            margin: 15px 0;
+        }
+        
+        .hero .desc {
+            font-size: 18px;
+            color: #777;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- هيدر الموقع -->
+    <header class="header">
+        <div class="logo">
+            <i class="fas fa-star"></i>
+            <span id="logoText">QVR STUDIO</span>
+        </div>
+        <nav class="nav">
+            <!-- زر تبديل اللغة -->
+            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">
+                <span id="langText">EN</span>
+            </button>
+            
+            <a href="#home" id="navHome">🏠 الرئيسية</a>
+            <a href="#about" id="navAbout">👤 عنا</a>
+            <!-- زر أعمالنا في الهيدر -->
+            <a href="#work" class="nav-work-btn" id="navWork">🎨 أعمالنا</a>
+            <a href="#contact" id="navContact">📞 تواصل</a>
+        </nav>
+    </header>
+
+    <!-- القسم الرئيسي -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1 id="heroTitle">أهلاً! نحن <span class="name">QVR STUDIO</span></h1>
+            
+            <!-- النص الذي تريد ترجمته -->
+            <p class="subtitle" id="heroSubtitle">
+                <span class="translated-text" id="designText">تصميم</span>
+            </p>
+            
+            <!-- النص الثاني الذي تريد ترجمته -->
+            <p class="desc" id="heroDesc">
+                <span class="translated-text" id="videoEditingText">مونتاج فيديو وتصميم ثلاثي الأبعاد</span>
+            </p>
+            
+            <!-- زر "شاهد أعمالنا" - تم تغيير موقعه -->
+            <button class="watch-works-btn" onclick="scrollToWorks()">
+                <i class="fas fa-eye"></i>
+                <span id="watchWorksText">شاهد أعمالنا</span>
+            </button>
+            
+            <!-- أزرار التواصل الاجتماعي -->
+            <div class="social-buttons">
+                <!-- زر Gmail -->
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=QVRSTUDIO@GMAIL.COM&su=Contact%20QVR%20STUDIO" 
+                   class="social-btn gmail-btn"
+                   target="_blank">
+                   <i class="fas fa-envelope"></i>
+                   <span id="gmailText">Gmail</span>
+                </a>
+                
+                <!-- زر واتساب -->
+                <a href="https://wa.me/966501450455" 
+                   class="social-btn whatsapp-btn"
+                   target="_blank">
+                   <i class="fab fa-whatsapp"></i>
+                   <span id="whatsappText">واتساب</span>
+                </a>
+                
+                <!-- زر تيك توك -->
+                <a href="https://www.tiktok.com/@QVR.STUDIO" 
+                   class="social-btn tiktok-btn"
+                   target="_blank">
+                   <i class="fab fa-tiktok"></i>
+                   <span id="tiktokText">تيك توك</span>
+                </a>
+                
+                <!-- زر انستجرام -->
+                <a href="https://www.instagram.com/QVR.STUDIO" 
+                   class="social-btn instagram-btn"
+                   target="_blank">
+                   <i class="fab fa-instagram"></i>
+                   <span id="instagramText">انستجرام</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المشاريع -->
+    <section id="work" class="portfolio">
+        <h2 id="portfolioTitle">🎬 مشاريعنا</h2>
+        
+        <!-- مشغل الفيديو (مخفي في البداية) -->
+        <div id="videoPlayerContainer" class="video-container">
+            <video id="mainVideoPlayer" controls>
+                <source id="videoSource" src="" type="video/mp4">
+                المتصفح لا يدعم تشغيل الفيديو
+            </video>
+            <div class="video-controls">
+                <button class="video-btn" onclick="playVideo()">
+                    <i class="fas fa-play"></i>
+                    <span id="playText">تشغيل</span>
+                </button>
+                <button class="video-btn" onclick="pauseVideo()">
+                    <i class="fas fa-pause"></i>
+                    <span id="pauseText">إيقاف</span>
+                </button>
+                <button class="video-btn" onclick="closeVideoPlayer()">
+                    <i class="fas fa-times"></i>
+                    <span id="closeText">إغلاق</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="projects-grid">
+            <!-- المشروع 1 - صورة الكتاب مع زر تشغيل -->
+            <div class="project-item">
+                <div class="project-media">
+                    <div class="project-img" onclick="showVideoInPage('images/projects/videos/0001-0150.mov')">
+                        <img src="images/projects/screenshots/b3cf7f.jpg" alt="غلاف كتاب ثلاثي الأبعاد">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- زر مشاهدة الفيديو -->
+                    <button class="project-video-btn" onclick="showVideoInPage('images/projects/videos/0001-0150.mov')">
+                        <i class="fas fa-play-circle"></i>
+                        <span id="watchVideoText">مشاهدة الفيديو</span>
+                    </button>
+                </div>
+                
+                <div class="project-info">
+                    <h3 id="project1Title">تصميم ثلاثي الأبعاد ومونتاج</h3>
+                    <p id="project1Desc">تصميم غلاف كتاب باستخدام Blender مع مونتاج احترافي للفيديوهات</p>
+                    <div class="project-tags">
+                        <span class="tag" id="blenderTag">Blender</span>
+                        <span class="tag" id="videoTag">فيديو</span>
+                        <span class="tag" id="productTag">منتج</span>
+                        <span class="tag" id="threeDTag">3D</span>
+                        <span class="tag" id="designTag">تصميم</span>
+                        <span class="tag" id="editingTag">مونتاج</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- المشروع 2 (احتياطي) -->
+            <div class="project-item">
+                <div class="project-media">
+                    <div class="project-img">
+                        <img src="images/projects/project3.jpg" alt="تصميم 3D">
+                    </div>
+                </div>
+                
+                <div class="project-info">
+                    <h3 id="project2Title">نمذجة 3D لمنتج</h3>
+                    <p id="project2Desc">تصميم ثلاثي الأبعاد لعبوة منتج</p>
+                    <div class="project-tags">
+                        <span class="tag">3D</span>
+                        <span class="tag">تصميم</span>
+                        <span class="tag">نمذجة</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- تواصل معنا -->
+    <section id="contact" class="contact">
+        <h2 id="contactTitle">💌 تواصل معنا</h2>
+        
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <p>QVRSTUDIO@GMAIL.COM</p>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-whatsapp"></i>
+                <p>+966 50 145 0455</p>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-tiktok"></i>
+                <p id="tiktokAccount">@QVR.STUDIO</p>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-instagram"></i>
+                <p id="instagramAccount">@QVR.STUDIO</p>
+            </div>
+        </div>
+        
+        <form class="contact-form" id="contactForm">
+            <input type="text" id="inputName" placeholder="اسمك" required>
+            <input type="email" id="inputEmail" placeholder="بريدك الإلكتروني" required>
+            <textarea id="inputMessage" placeholder="رسالتك..." rows="4" required></textarea>
+            <button type="submit" id="btnSubmit">
+                <i class="fas fa-paper-plane"></i> <span id="btnSubmitText">إرسال</span>
+            </button>
+        </form>
+    </section>
+
+    <!-- الفوتر -->
+    <footer>
+        <p id="footerText">صنع ب ❤️ بواسطة QVR STUDIO | © 2026</p>
+    </footer>
+
+    <script>
+        // ============================================
+        // كود تبديل اللغة - مع كل الترجمات
+        // ============================================
+        
+        // حالة اللغة (true = English, false = Arabic)
+        let isEnglish = false;
+        
+        // النصوص العربية
+        const arabicTexts = {
+            // العناوين
+            pageTitle: "QVR STUDIO | موقع إبداعي",
+            heroTitle: "أهلاً! نحن <span class='name'>QVR STUDIO</span>",
+            
+            // النصوص التي تريد ترجمتها
+            designText: "تصميم",
+            videoEditingText: "مونتاج فيديو وتصميم ثلاثي الأبعاد",
+            watchWorksText: "شاهد أعمالنا",
+            
+            // أزرار التواصل الاجتماعي
+            gmailText: "Gmail",
+            whatsappText: "واتساب",
+            tiktokText: "تيك توك",
+            instagramText: "انستجرام",
+            
+            // الحسابات
+            tiktokAccount: "@QVR.STUDIO",
+            instagramAccount: "@QVR.STUDIO",
+            
+            // باقي النصوص
+            portfolioTitle: "🎬 مشاريعنا",
+            contactTitle: "💌 تواصل معنا",
+            
+            // القائمة
+            navHome: "🏠 الرئيسية",
+            navAbout: "👤 عنا", 
+            navWork: "🎨 أعمالنا",
+            navContact: "📞 تواصل",
+            
+            // أزرار الفيديو
+            playText: "تشغيل",
+            pauseText: "إيقاف",
+            closeText: "إغلاق",
+            watchVideoText: "مشاهدة الفيديو",
+            
+            // المشاريع
+            project1Title: "تصميم ثلاثي الأبعاد ومونتاج",
+            project1Desc: "تصميم غلاف كتاب باستخدام Blender مع مونتاج احترافي للفيديوهات",
+            project2Title: "نمذجة 3D لمنتج", 
+            project2Desc: "تصميم ثلاثي الأبعاد لعبوة منتج",
+            
+            // التاجات
+            blenderTag: "Blender",
+            videoTag: "فيديو",
+            productTag: "منتج",
+            threeDTag: "3D",
+            designTag: "تصميم",
+            editingTag: "مونتاج",
+            
+            // الفورم
+            inputName: "اسمك",
+            inputEmail: "بريدك الإلكتروني",
+            inputMessage: "رسالتك...",
+            btnSubmitText: "إرسال",
+            langText: "EN",
+            
+            // الفوتر
+            footerText: "صنع ب ❤️ بواسطة QVR STUDIO | © 2024"
+        };
+        
+        // النصوص الإنجليزية
+        const englishTexts = {
+            // Titles
+            pageTitle: "QVR STUDIO | Creative Studio",
+            heroTitle: "Welcome to <span class='name'>QVR STUDIO</span>",
+            
+            // Texts you want to translate
+            designText: "Design",
+            videoEditingText: "Video editing and 3D design",
+            watchWorksText: "Watch Our Works",
+            
+            // Social Media Buttons
+            gmailText: "Gmail",
+            whatsappText: "WhatsApp",
+            tiktokText: "TikTok",
+            instagramText: "Instagram",
+            
+            // Accounts
+            tiktokAccount: "@QVR.STUDIO",
+            instagramAccount: "@QVR.STUDIO",
+            
+            // Other texts
+            portfolioTitle: "🎬 Our Projects",
+            contactTitle: "💌 Contact Us",
+            
+            // Menu
+            navHome: "🏠 Home",
+            navAbout: "👤 About",
+            navWork: "🎨 Portfolio",
+            navContact: "📞 Contact",
+            
+            // Video buttons
+            playText: "Play",
+            pauseText: "Pause",
+            closeText: "Close",
+            watchVideoText: "Watch Video",
+            
+            // Projects
+            project1Title: "3D Design & Video Editing",
+            project1Desc: "Book cover design using Blender with professional video editing",
+            project2Title: "3D Product Modeling",
+            project2Desc: "3D design for product packaging",
+            
+            // Tags
+            blenderTag: "Blender",
+            videoTag: "Video",
+            productTag: "Product",
+            threeDTag: "3D",
+            designTag: "Design",
+            editingTag: "Editing",
+            
+            // Form
+            inputName: "Your Name",
+            inputEmail: "Your Email",
+            inputMessage: "Your Message...",
+            btnSubmitText: "Send",
+            langText: "AR",
+            
+            // Footer
+            footerText: "Made with ❤️ by QVR STUDIO | © 2026"
+        };
+        
+        // دالة تبديل اللغة
+        function toggleLanguage() {
+            isEnglish = !isEnglish;
+            updateLanguage();
+        }
+        
+        // دالة تحديث النصوص
+        function updateLanguage() {
+            const texts = isEnglish ? englishTexts : arabicTexts;
+            const htmlElement = document.getElementById('htmlElement');
+            
+            // تغيير اتجاه الصفحة
+            if (isEnglish) {
+                htmlElement.dir = 'ltr';
+                htmlElement.lang = 'en';
+            } else {
+                htmlElement.dir = 'rtl';
+                htmlElement.lang = 'ar';
+            }
+            
+            // تحديث جميع النصوص
+            document.getElementById('pageTitle').textContent = texts.pageTitle;
+            document.getElementById('heroTitle').innerHTML = texts.heroTitle;
+            
+            // النصوص التي تريد ترجمتها
+            document.getElementById('designText').textContent = texts.designText;
+            document.getElementById('videoEditingText').textContent = texts.videoEditingText;
+            document.getElementById('watchWorksText').textContent = texts.watchWorksText;
+            
+            // أزرار التواصل الاجتماعي
+            document.getElementById('gmailText').textContent = texts.gmailText;
+            document.getElementById('whatsappText').textContent = texts.whatsappText;
+            document.getElementById('tiktokText').textContent = texts.tiktokText;
+            document.getElementById('instagramText').textContent = texts.instagramText;
+            
+            // الحسابات
+            document.getElementById('tiktokAccount').textContent = texts.tiktokAccount;
+            document.getElementById('instagramAccount').textContent = texts.instagramAccount;
+            
+            // باقي النصوص
+            document.getElementById('portfolioTitle').textContent = texts.portfolioTitle;
+            document.getElementById('contactTitle').textContent = texts.contactTitle;
+            
+            document.getElementById('navHome').textContent = texts.navHome;
+            document.getElementById('navAbout').textContent = texts.navAbout;
+            document.getElementById('navWork').textContent = texts.navWork;
+            document.getElementById('navContact').textContent = texts.navContact;
+            
+            document.getElementById('playText').textContent = texts.playText;
+            document.getElementById('pauseText').textContent = texts.pauseText;
+            document.getElementById('closeText').textContent = texts.closeText;
+            document.getElementById('watchVideoText').textContent = texts.watchVideoText;
+            
+            document.getElementById('project1Title').textContent = texts.project1Title;
+            document.getElementById('project1Desc').textContent = texts.project1Desc;
+            document.getElementById('project2Title').textContent = texts.project2Title;
+            document.getElementById('project2Desc').textContent = texts.project2Desc;
+            
+            document.getElementById('blenderTag').textContent = texts.blenderTag;
+            document.getElementById('videoTag').textContent = texts.videoTag;
+            document.getElementById('productTag').textContent = texts.productTag;
+            document.getElementById('threeDTag').textContent = texts.threeDTag;
+            document.getElementById('designTag').textContent = texts.designTag;
+            document.getElementById('editingTag').textContent = texts.editingTag;
+            
+            document.getElementById('inputName').placeholder = texts.inputName;
+            document.getElementById('inputEmail').placeholder = texts.inputEmail;
+            document.getElementById('inputMessage').placeholder = texts.inputMessage;
+            document.getElementById('btnSubmitText').textContent = texts.btnSubmitText;
+            document.getElementById('langText').textContent = texts.langText;
+            
+            document.getElementById('footerText').textContent = texts.footerText;
+            
+            // حفظ الإعداد في localStorage
+            localStorage.setItem('qvrStudioLanguage', isEnglish ? 'en' : 'ar');
+        }
+        
+        // تحميل اللغة المحفوظة
+        window.addEventListener('load', function() {
+            const savedLang = localStorage.getItem('qvrStudioLanguage');
+            if (savedLang === 'en') {
+                isEnglish = true;
+                updateLanguage();
+            }
+        });
+        
+        // ============================================
+        // دالة التمرير إلى قسم الأعمال
+        // ============================================
+        
+        function scrollToWorks() {
+            const workSection = document.getElementById('work');
+            if (workSection) {
+                window.scrollTo({
+                    top: workSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        // ============================================
+        // كود مشغل الفيديو داخل الموقع
+        // ============================================
+        
+        // دالة لعرض الفيديو داخل الصفحة
+        function showVideoInPage(videoPath) {
+            console.log('فتح الفيديو داخل الصفحة:', videoPath);
+            
+            // العناصر
+            const videoContainer = document.getElementById('videoPlayerContainer');
+            const videoPlayer = document.getElementById('mainVideoPlayer');
+            const videoSource = document.getElementById('videoSource');
+            
+            // تعيين مصدر الفيديو
+            videoSource.src = videoPath;
+            
+            // تحديد نوع الفيديو
+            if (videoPath.endsWith('.mov')) {
+                videoSource.type = 'video/mp4';
+            } else if (videoPath.endsWith('.mkv')) {
+                videoSource.type = 'video/x-matroska';
+            }
+            
+            // إعادة تحميل الفيديو
+            videoPlayer.load();
+            
+            // عرض حاوية الفيديو
+            videoContainer.classList.add('active');
+            
+            // التمرير إلى الفيديو
+            videoContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // محاولة التشغيل التلقائي
+            setTimeout(function() {
+                videoPlayer.play().catch(function(error) {
+                    console.log('التشغيل التلقائي ممنوع:', error);
+                });
+            }, 300);
+        }
+        
+        // دالة تشغيل الفيديو
+        function playVideo() {
+            const videoPlayer = document.getElementById('mainVideoPlayer');
+            videoPlayer.play();
+        }
+        
+        // دالة إيقاف الفيديو
+        function pauseVideo() {
+            const videoPlayer = document.getElementById('mainVideoPlayer');
+            videoPlayer.pause();
+        }
+        
+        // دالة إغلاق مشغل الفيديو
+        function closeVideoPlayer() {
+            const videoContainer = document.getElementById('videoPlayerContainer');
+            const videoPlayer = document.getElementById('mainVideoPlayer');
+            
+            // إيقاف الفيديو
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+            
+            // إخفاء الحاوية
+            videoContainer.classList.remove('active');
+            
+            // التمرير لأعلى قليلاً
+            window.scrollBy(0, -100);
+        }
+        
+        // ============================================
+        // تحسين تجربة المستخدم
+        // ============================================
+        
+        // إضافة تأثير سلس للتمرير
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // إغلاق الفيديو عند الضغط على زر ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeVideoPlayer();
+            }
+        });
+        
+        // عند انتهاء الفيديو، التمرير للأعلى قليلاً
+        document.getElementById('mainVideoPlayer').addEventListener('ended', function() {
+            setTimeout(function() {
+                closeVideoPlayer();
+            }, 2000);
+        });
+        
+    </script>
+</body>
+</html>
